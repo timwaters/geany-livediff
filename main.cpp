@@ -49,6 +49,7 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
   cout << "document saved: ";
   if (doc->real_path) {
     cout << doc->real_path << endl;
+    cache_document(doc); // we may be saving a new document, so it may not be cached
     cached_documents[doc]->set_margins();
   }
   else cout << "not real document" << endl;
