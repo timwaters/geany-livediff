@@ -54,8 +54,8 @@ gld::CachedDocumentGit* gld::CachedDocumentGit::attempt_create(GeanyDocument* do
       }
     }
     if (!repo_ptr) {
-      cout << "creating new repo for " << base_path << endl;
-      repo_ptr = boost::shared_ptr<GitRepo>(new GitRepo(base_path));
+      cout << "creating new repo for " << path << endl;
+      repo_ptr = boost::shared_ptr<GitRepo>(new GitRepo(path));
     }
 
     if (repo_ptr.get()->find_file(doc->real_path)) 
