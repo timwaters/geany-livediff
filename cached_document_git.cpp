@@ -35,6 +35,10 @@ void gld::CachedDocumentGit::cache(void)
   }
 }
 
+void gld::CachedDocumentGit::check_source(void) {
+  cache();
+}
+
 gld::CachedDocumentGit* gld::CachedDocumentGit::attempt_create(GeanyDocument* doc)
 {
   char path[PATH_MAX];
@@ -91,14 +95,13 @@ bool gld::GitRepo::check_head(void)
   git_oid oid;
   git_reference_name_to_id(&oid, repo, "HEAD");
   
-  char oid_name[GIT_OID_HEXSZ+1];
-  git_oid_tostr(oid_name, GIT_OID_HEXSZ+1, &head_oid);
-  cout << "old head: " << oid_name << endl;
-  git_oid_tostr(oid_name, GIT_OID_HEXSZ+1, &oid);
-  cout << "cur head: " << oid_name << endl;
-  
   if (git_oid_cmp(&oid, &head_oid) == 0) return true;
-  else {
+  else {    
+    char oid_name_head[GIT_OID_HEXSZ+1], oid_name_cur[GIT_OID_HEXSZ+1];
+    git_oid_tostr(oid_name_head, GIT_OID_HEXSZ+1, &head_oid);
+    git_oid_tostr(oid_name_cur, GIT_OID_HEXSZ+1, &oid);
+    cout << "cur head: " << oid_name_cur << " old head: " << oid_name_head << endl;
+
     git_oid_cpy(&head_oid, &oid);
     return false;
   }

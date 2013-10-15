@@ -20,7 +20,7 @@ namespace gld {
       void update_markers(void);
 
       void set_margins(void);
-      void check_cache(void);
+      virtual void check_source(void);
 
       //static DocumentType get_type(GeanyDocument* doc);
 

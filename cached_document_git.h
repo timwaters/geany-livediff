@@ -15,11 +15,10 @@ namespace gld {
 
       void cache(void);
 
-      static bool is_git(void);
-
       static CachedDocumentGit* attempt_create(GeanyDocument* doc);
 
       boost::shared_ptr<GitRepo> repo;
+      void check_source(void);
   };
 
   class GitRepo {

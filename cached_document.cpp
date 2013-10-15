@@ -83,6 +83,11 @@ void gld::CachedDocument::clear_markers(void)
   scintilla_send_message(sci, SCI_MARKERDELETEALL, LINE_MODIFIED, 0);
 }
 
+void gld::CachedDocument::check_source(void)
+{
+  // do nothing, geany auto-detects files modified on disk
+}
+
 void gld::CachedDocument::cache(void)
 {
   cout << "caching " << geany_document->real_path << endl;
@@ -120,7 +125,7 @@ void gld::CachedDocument::update_markers(void)
   /* go over each hunk */
   const vector< uniHunk<sesElem> >& hunks = diff.getUniHunks();
   cout << "found " << hunks.size() << " hunks" << endl;
-  for (int i = 0; i < hunks.size(); i++) {
+  for (uint i = 0; i < hunks.size(); i++) {
     cout << "hunk " << i << endl;
     int first_line = (hunks[i].c - 1) + hunks[i].common[0].size();
     cout << "a,b,c,d " << hunks[i].a << " " << hunks[i].b << " " << hunks[i].c << " " << hunks[i].d << endl;
@@ -129,7 +134,7 @@ void gld::CachedDocument::update_markers(void)
 
     int deleted_lines = 0, added_lines = 0;
     int current_line = first_line;
-    for (int j = 0; j < hunks[i].change.size(); j++) {
+    for (uint j = 0; j < hunks[i].change.size(); j++) {
       if (hunks[i].change[j].second.type == dtl::SES_DELETE) {
         cout << "deleted part" << endl;
         if (added_lines > 0) set_markers_so_far(current_line, added_lines, deleted_lines);
@@ -157,7 +162,6 @@ void gld::CachedDocument::set_marker(int line, LineMarker flag)
 
 void gld::CachedDocument::set_markers_so_far(int& current_line, int& added_lines, int& deleted_lines)
 {
-  ScintillaObject* sci = geany_document->editor->sci;
   cout << "printing status" << endl;
   if (deleted_lines == added_lines && deleted_lines != 0)
     for (int k = 0; k < deleted_lines; k++, current_line++) {

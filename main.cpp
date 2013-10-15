@@ -5,14 +5,18 @@
 using namespace std;
 using namespace gld;
 
+#define RECHECK_SOURCES_INTERVAL 5 // in seconds
+
 /* Geany Plugin definition */
 PLUGIN_VERSION_CHECK(211)
 PLUGIN_SET_INFO("LiveDiff", "Displays added/deleted/modified line indicators in editor window, continously updated",
                 "1.0", "v01d <phreakuencies@gmail.com>");
 
 vector<GdkPixbuf*> gld::marker_icons;
+GeanyPlugin* geany_plugin;
 GeanyFunctions* geany_functions;
 GeanyData* geany_data;
+bool recheck_sources = false;
 
 /* Signal Handling */
 static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
@@ -76,6 +80,24 @@ static gboolean editor_notify(GObject *obj, GeanyEditor *editor, SCNotification 
   }
   return FALSE;
 }
+
+static gboolean on_idle(gpointer user_data)
+{
+  check_sources();
+  recheck_sources = false;
+  
+  return FALSE;
+}
+
+static gboolean on_timeout(gpointer user_data)
+{
+  if (!recheck_sources) {
+    recheck_sources = true;
+    plugin_idle_add(geany_plugin, &on_idle, NULL);
+  }
+  return TRUE;
+}
+
     
 extern "C" {
 void plugin_init(GeanyData *data)
@@ -91,14 +113,17 @@ void plugin_init(GeanyData *data)
   marker_icons[ICON_DELETED_MODIFIED] = gdk_pixbuf_new_from_file(FULL_ICON_PATH "/deleted_modified.png", &load_error);
 
   /* cache all opened documents */
-  int i;
+  uint i;
   foreach_document(i) { cache_document(documents[i]); }
+
+  /* add some geany callbacks */
+  plugin_timeout_add_seconds(geany_plugin, RECHECK_SOURCES_INTERVAL, &on_timeout, NULL);
 }
 
 void plugin_cleanup(void)
 {
   clear_cache();
-  for (int i = 0; i < marker_icons.size(); i++) g_object_unref(marker_icons[i]);
+  for (uint i = 0; i < marker_icons.size(); i++) g_object_unref(marker_icons[i]);
   git_threads_shutdown();
 }
 

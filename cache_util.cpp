@@ -30,6 +30,12 @@ void gld::uncache_document(GeanyDocument* doc) {
   if (it != cached_documents.end()) { cached_documents.erase(it); cout << "erased cached document" << endl; }
 }
 
+void gld::check_sources(void)
+{
+  for (CachedDocuments::iterator it = cached_documents.begin(); it != cached_documents.end(); ++it)
+    (it->second)->check_source();
+}
+
 void gld::clear_cache(void) {
   cached_documents.clear();
 }

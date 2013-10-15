@@ -20,6 +20,7 @@ namespace gld {
   /* cached documents interface */
   bool cache_document(GeanyDocument* doc, bool force = false);
   void uncache_document(GeanyDocument* doc);
+  void check_sources(void);
   void clear_cache(void);
   typedef boost::shared_ptr<CachedDocument> CachedDocumentPtr;
   typedef std::map<GeanyDocument*, CachedDocumentPtr> CachedDocuments;
