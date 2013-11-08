@@ -4,7 +4,6 @@ geany-livediff
 GeanyLiveDiff: plugin for geany which diffs file on-the-fly and displays colored markers on editor. 
 Currently against git repos and regular files.
 
-![livediff.png](https://raw.github.com/mibamur/geany-livediff/master/livediff.png)
 ![livediff.png](https://raw.github.com/v01d/geany-livediff/master/livediff.png)
 
 ### Install
