@@ -4,6 +4,9 @@ geany-livediff
 GeanyLiveDiff: plugin for geany which diffs file on-the-fly and displays colored markers on editor. 
 Currently against git repos and regular files.
 
+![livediff.png](https://raw.github.com/mibamur/geany-livediff/master/livediff.png)
+![livediff.png](https://raw.github.com/v01d/geany-livediff/master/livediff.png)
+
 ### Install
 
 For example (debian)
@@ -12,10 +15,9 @@ For example (debian)
 
 * cmake
 * libgit2
-* Boost
-   * Boost libraries:
-    * filesystem
-    * system
+* Boost libraries:
+  * filesystem
+  * system
 
 ```sh
 $ sudo apt-get install libgit2-dev cmake libboost-filesystem-dev libboost-system-dev
