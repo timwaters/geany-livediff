@@ -12,6 +12,7 @@ using namespace std;
 gld::CachedDocumentGit::CachedDocumentGit(GeanyDocument* doc, boost::shared_ptr<GitRepo> _repo) :
   CachedDocument(doc), repo(_repo)
 {
+  git_oid_cpy(&oid, &repo->head_oid); // get the revision this file is from
 }
 
 gld::CachedDocumentGit::~CachedDocumentGit(void)
@@ -19,8 +20,8 @@ gld::CachedDocumentGit::~CachedDocumentGit(void)
 }
 
 void gld::CachedDocumentGit::cache(void)
-{
-  if (text_lines.empty() || !repo.get()->check_head()) {
+{  
+  if (text_lines.empty() || !is_latest()) {
     cout << "caching " << geany_document->real_path << endl;
     std::string str;
     repo.get()->get_file(geany_document->real_path, str);
@@ -33,6 +34,10 @@ void gld::CachedDocumentGit::cache(void)
   
     update_markers();
   }
+}
+
+bool gld::CachedDocumentGit::is_latest(void) {
+  return (repo.get()->check_head() && git_oid_cmp(&(repo.get()->head_oid), &oid) == 0);
 }
 
 void gld::CachedDocumentGit::check_source(void) {

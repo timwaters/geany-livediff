@@ -19,6 +19,9 @@ namespace gld {
 
       boost::shared_ptr<GitRepo> repo;
       void check_source(void);
+      bool is_latest(void);
+
+      git_oid oid;
   };
 
   class GitRepo {
