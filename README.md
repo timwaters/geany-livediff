@@ -22,6 +22,15 @@ For example (debian)
 $ sudo apt-get install libgit2-dev cmake libboost-filesystem-dev libboost-system-dev
 ```
 
+NOTE: For Ubuntu 12.04, you can add repository for libgit2
+
+```
+sudo add-apt-repository ppa:xav0989/libgit2
+sudo apt-get update
+sudo apt-get install libgit2-dev
+```
+
+
 #### Build
 
 ```sh
