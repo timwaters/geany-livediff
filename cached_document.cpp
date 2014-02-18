@@ -29,7 +29,7 @@ void gld::CachedDocument::set_margins(void)
   ScintillaObject* sci = geany_document->editor->sci;
   
   /* enable margin 3 for this plugin: set mask only for the symbols used */
-  scintilla_send_message(sci, SCI_SETMARGINWIDTHN, 3, 32);
+  scintilla_send_message(sci, SCI_SETMARGINWIDTHN, 3, 16);
   scintilla_send_message(sci, SCI_SETMARGINTYPEN, 3, SC_MARGIN_SYMBOL);
   int mask = (1 << LINE_ADDED) | (1 << LINE_DELETED) | (1 << LINE_MODIFIED) | (1 << LINE_DELETED_MODIFIED);
   scintilla_send_message(sci, SCI_SETMARGINMASKN, 3, mask);
