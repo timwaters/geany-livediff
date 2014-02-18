@@ -78,6 +78,18 @@ static gboolean editor_notify(GObject *obj, GeanyEditor *editor, SCNotification 
     cout << "text changed" << endl;
     cached_documents[editor->document]->update_markers();
   }
+  
+  switch (nt->nmhdr.code)
+  {
+    case SCN_MARGINCLICK:
+    {
+      cout << "MARGIN: " << nt->margin << endl;
+      cout << "Margin Clicked" << endl;
+      break;
+    }
+  }
+  
+  
   return FALSE;
 }
 
